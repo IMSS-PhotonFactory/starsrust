@@ -308,6 +308,10 @@ pub fn system_load_commandpermission(
             return Err(err);
         }
     }
+
+    sort_and_remove(&mut sdata.cmddeny);
+    sort_and_remove(&mut sdata.cmdallow);
+
     dbprint!("load commandpermission");
     dbprint!(sdata.cmddeny);
     dbprint!((sdata.cmdallow));
@@ -345,6 +349,10 @@ pub fn system_load_reconnecttable_permission(
             return Err(err);
         }
     }
+
+    sort_and_remove(&mut sdata.reconndeny);
+    sort_and_remove(&mut sdata.reconnallow);
+
     dbprint!("load reconnecttable");
     dbprint!(sdata.reconndeny);
     dbprint!(sdata.reconnallow);
@@ -361,4 +369,10 @@ pub fn system_load_shutdown_permission(sdata: &mut std::sync::MutexGuard<'_, Sta
             // If file not exists, nobody can send the shutdown command.
         }
     }
+}
+
+// sort and remove double entries
+fn sort_and_remove(vec_data: &mut Vec<String>) {
+    vec_data.sort();
+    vec_data.dedup();
 }
